@@ -2,24 +2,25 @@
 import React, { useContext } from 'react';
 import { AppContext } from '../context/AppContext';
 const Budget = () => {
-    const { budget } = useContext(AppContext);
+    const { budget, dispatch, currency } = useContext(AppContext);
 
-    const submitEvent = () => {
+    const submitEvent = (newBudget) => {
+        
         dispatch({
             type: 'CHANGE_BUDGET',
-            payload: expense,);
+            payload: newBudget});
     }
 
     return (
         <div className='alert alert-secondary'>
-            <span>Budget: £<input
+            <span>Budget: {currency}<input
                         required='required'
                         type='number'
                         id='cost'
                         step='10'
                         value={budget}
-                        style={{ marginLeft: '2rem' , size: 10}}
-                        /*onChange={(event) => setBudget(event.target.value)}*/>
+                        style={{size: 10, width: 100}}
+                        onChange={event=>submitEvent(event.target.value)}>
                     </input></span>
         </div>
     );

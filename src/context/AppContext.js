@@ -4,7 +4,27 @@ import React, { createContext, useReducer } from 'react';
 export const AppReducer = (state, action) => {
     let budget = 0;
     switch (action.type) {
-        case 'CHANGE_BUDGET'
+        case 'CHANGE_BUDGET':
+
+            let total_expenses = 0;
+            total_expenses = state.expenses.reduce(
+                (previousExp, currentExp) => {
+                    return previousExp + currentExp.cost
+                },0
+            );
+            
+            if (action.payload > 20000) {
+                alert("Budget cannot be set to greater than 20,000.")
+            } else if (total_expenses > action.payload) {
+                alert("Budget cannot be set to less than total expenses.")
+            }
+            else{
+                state.budget = action.payload;
+            }
+            action.type = "DONE";
+            return {
+                ...state,
+            };
         case 'ADD_EXPENSE':
             let total_budget = 0;
             total_budget = state.expenses.reduce(
@@ -44,7 +64,7 @@ export const AppReducer = (state, action) => {
                     ...state,
                     expenses: [...red_expenses],
                 };
-            case 'DELETE_EXPENSE':
+        case 'DELETE_EXPENSE':
             action.type = "DONE";
             state.expenses.map((currentExp)=> {
                 if (currentExp.name === action.payload) {
